@@ -67,19 +67,6 @@ async def test_turn_off_invalid_camera(hass, demo_camera):
     assert demo_camera.state == STATE_STREAMING
 
 
-async def test_turn_off_unsupport_camera(hass, demo_camera):
-    """Turn off unsupported camera should quietly fail."""
-    assert demo_camera.state == STATE_STREAMING
-    with patch('homeassistant.components.camera.demo.DemoCamera'
-               '.supported_features', new_callable=PropertyMock) as m:
-        m.return_value = 0
-
-        await camera.async_turn_off(hass, demo_camera.entity_id)
-        await hass.async_block_till_done()
-
-    assert demo_camera.state == STATE_STREAMING
-
-
 async def test_motion_detection(hass):
     """Test motion detection services."""
     # Setup platform
